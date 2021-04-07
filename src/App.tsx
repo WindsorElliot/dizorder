@@ -235,7 +235,7 @@ class App extends Component {
                 </Carousel.Caption>
               </Carousel.Item>
               <Carousel.Item>
-                <a href="https://dizorder.fanlink.to/SkyLight"><img src={Skylight} alt='Skylight' style={{ width: '100%', height: '100%' }} /></a>
+                <a href="https://dizorder.fanlink.to/skylight"><img src={Skylight} alt='Skylight' style={{ width: '100%', height: '100%' }} /></a>
                 <Carousel.Caption>
                   {/* <h3>Skylight</h3> */}
                   {/* <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
