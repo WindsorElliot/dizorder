@@ -1,5 +1,27 @@
+@font-face {
+  font-family: 'Aileron';
+  src: local('Aileron'), url(./fonts/Ailerons-Regular.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Nexa_bold';
+  src: local('Nexa_bold'), url(./fonts/Nexa_Free_Bold.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Nexa_light';
+  src: local('Nexa_light'), url(./fonts/Nexa_Free_Light.otf) format('opentype');
+}
+
 .App {
+  font-family: 'Nexa_light';
   text-align: center;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;
+}
+
+.App::-webkit-scrollbar {
+  display: none;
 }
 
 .App-logo {
@@ -36,3 +58,4 @@
     transform: rotate(360deg);
   }
 }
+
