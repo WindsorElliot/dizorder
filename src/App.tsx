@@ -6,12 +6,10 @@ import Instagram from './assets/instagram.png';
 import Facebook from './assets/facebook.png';
 import Twitter from './assets/twitter.png';
 import { Carousel } from 'react-bootstrap';
-import LastA from './assets/last/last_a.png';
-import LastB from './assets/last/last_b.png';
 import Dezeer from './assets/deezer.png';
-import Spotify from './assets/spotify.png';
-import Bandcamp from './assets/bandcamp.png';
-import Youtube from './assets/youtube.png';
+import Spotify from './assets/Spotify.png';
+import Bandcamp from './assets/Bandcamp.png';
+import Youtube from './assets/Youtube.png';
 import Lilimoon from './assets/Releases/lilimoon.png';
 import Soulless from './assets/Releases/soulless.png';
 import Skylight from './assets/Releases/skylight.png';
@@ -19,13 +17,11 @@ import GroupeDizorder from './assets/groupe.png';
 import firebase from 'firebase';
 import Concert from './models/Concert';
 
-// import FlagFr from './assets/flag_fr.jpg';
-// import FlagEn from './assets/flag_uk.png';
-
 interface StateInterface {
   concerts: Concert[] | undefined
   selectedLang: string,
-  text: any
+  text: any,
+  shopsItem: string[]
 }
 
 class App extends Component {
@@ -39,62 +35,78 @@ class App extends Component {
       text: {
 
       },
+      shopsItem: [],
       selectedLang: 'en'
     };
     this.handleClickALang = this.handleClickALang.bind(this);
   }
 
   componentDidMount() {
-    firebase.firestore().collection('concert').get().then((queryDocs) => {
-      const concerts = queryDocs.docs.map((d) => new Concert(d));
-      console.log(concerts);
-      this.setState({
-        'concerts': concerts
+    firebase.auth().signInAnonymously().then((user) => {
+      console.log(user);
+      firebase.firestore().collection('concert').get().then((queryDocs) => {
+        const concerts = queryDocs.docs.map((d) => new Concert(d));
+        console.log(concerts);
+        this.setState({
+          'concerts': concerts
+        });
+      }).catch((err) => {
+        console.log(err);
+      });
+
+      firebase.firestore().collection('text').doc(this.state.selectedLang).get().then((doc) => {
+        const text = doc.data();
+        this.setState({
+          'text': text
+        });
+      });
+
+      firebase.storage().ref().child('shops').listAll().then((list) => {
+        const urlsPromise = list.items.map((aItem) => aItem.getDownloadURL());
+        Promise.all(urlsPromise).then((res) => {
+          console.log(res);
+          this.setState({
+            'shopsItem': res
+          });
+        });
       });
     }).catch((err) => {
       console.log(err);
-    });
-
-    firebase.firestore().collection('text').doc(this.state.selectedLang).get().then((doc) => {
-      const text = doc.data();
-      this.setState({
-        'text': text
-      });
-    });
+    })
   }
 
   render() {
     return (
       <div className="App" style={{ backgroundColor: 'grey', width: '100%', height: '100%' }}>
-        <div style={{ width: '100%', height: '100%', backgroundColor: '#444746' }}>
+        <div style={{ width: '100%', height: '100%', backgroundColor: '#1E1E1E' }}>
 
-          <div className="top_bar" style={{ width: '100%', backgroundColor: 'black', height: '60px', display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
+          <div className="top_bar" style={{ width: '100%', backgroundColor: 'black', height: '70px', display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
             <a className="insta"
               href="https://bit.ly/dizorderinstagram"
-              style={{ width: '60px', height: '60px' }}
+              style={{ width: '20px', height: '20px', lineHeight: '70px' }}
               onClick={() => {
                 console.log('instagram')
               }}
             >
-              <img src={Instagram} alt='instagram' style={{ width: '60px', height: '60px' }} />
+              <img src={Instagram} alt='instagram' style={{ width: '20px', height: '20px' }} />
             </a>
             <a className='facebook'
-              style={{ marginLeft: '10px', width: '60px', height: '60px' }}
+              style={{ marginLeft: '15px', width: '20px', height: '20px', lineHeight: '70px' }}
               href="https://bit.ly/dizorderfacebook"
               onClick={() => {
                 console.log('facebook')
               }}
             >
-              <img src={Facebook} alt={'facebook'} style={{ width: '60px', height: '60px' }} />
+              <img src={Facebook} alt={'facebook'} style={{ width: '20px', height: '20px' }} />
             </a>
             <a className='twitter'
-              style={{ marginLeft: '10px', width: '60px', height: '60px' }}
+              style={{ marginLeft: '15px', width: '20px', height: '20px', lineHeight: '70px' }}
               href="https://bit.ly/dizordertwitter"
               onClick={() => {
                 console.log('twitter')
               }}
             >
-              <img src={Twitter} alt={'twitter'} style={{ width: '60px', height: '60px' }} />
+              <img src={Twitter} alt={'twitter'} style={{ width: '20px', height: '20px' }} />
             </a>
             {/* <div className="lang_selector" style={{ height: '100%', marginLeft: '30%', display: 'flex', overflow: 'hidden' }}>
               <img src={FlagEn} alt="Anglais" style={{ width: '60px', height: '60px', marginTop: '0px' }} onClick={() => {
@@ -120,8 +132,8 @@ class App extends Component {
             {/* border: '1rem solid white', borderRadius: '30px' */}
             <div style={{}}>
               <div style={{ marginLeft: '30px', marginRight: '30px' }}>
-                <h3 style={{ color: 'white', marginTop: '30px', fontFamily: 'Aileron' }}>THE BAND: </h3>
-                <p className='P_pitch_your_self' style={{ color: 'white', fontFamily: 'Nexa_light' }}>
+                <h3 style={{ color: 'white', marginTop: '30px', fontFamily: 'Aileron' }}>THE BAND</h3>
+                <p className='P_pitch_your_self' style={{ color: 'white', fontFamily: 'Nexa_light', textAlign: "justify", textJustify: "inter-character" }}>
                   {this.state.text['introduction']}
                 </p>
                 <br />
@@ -134,36 +146,32 @@ class App extends Component {
           <br />
           <br />
 
-          <div className='last_album' style={{ marginLeft: '15%', width: '70%' }}>
+          <div className='shop' style={{ marginLeft: '15%', width: '70%' }}>
             <h3 style={{ color: 'white', fontFamily: 'Aileron' }} > Shop </h3>
             <div style={{ marginTop: '10px', display: 'flex', width: '80%', marginLeft: '10%', color: 'white' }}>
               <div style={{ width: '100%', height: '100%' }}>
                 <Carousel>
-                  <Carousel.Item>
-                    <a href="https://dizorder.bigcartel.com/"><img src={LastA} alt='derniére sortie' style={{ width: '100%', height: '100%', display: 'block' }} /></a>
-                    <Carousel.Caption>
-                      {/* <h3>Digipack Dizorder</h3> */}
-                      {/* <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
-                    </Carousel.Caption>
-                  </Carousel.Item>
-                  <Carousel.Item>
-                    <a href="https://dizorder.bigcartel.com/"><img src={LastB} alt='derniére sortie' style={{ width: '100%', height: '100%', display: 'block' }} /></a>
-                    <Carousel.Caption>
-                      {/* <h3>Digipack Dizorder</h3> */}
-                      {/* <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
-                    </Carousel.Caption>
-                  </Carousel.Item>
+                  {this.state.shopsItem.map((aUrl, index) => (
+                    <Carousel.Item key={index}>
+                      <a href="https://dizorder.bigcartel.com/"><img src={aUrl} alt='last release' style={{ width: '100%', height: '100%', display: 'block' }} /></a>
+                      <Carousel.Caption>
+
+                      </Carousel.Caption>
+                    </Carousel.Item>
+                  ))
+                  }
+
                 </Carousel>
               </div>
             </div>
-            <div style={{ marginLeft: '10%', width: '80%', marginTop: '20px' }}>
+            <div style={{ marginLeft: '10%', width: '80%', marginTop: '40px' }}>
               <div style={{ borderTop: '1px solid #cbcbcb' }}>
                 <div style={{ color: 'white' }}>
                   {/* <h3 style={{ color: 'white' }} >Dizorder</h3> */}
                   {/* <h5 style={{ color: 'white' }} >Disponible Maintenat</h5> */}
                 </div>
                 <br />
-                <h3 style={{ fontFamily: 'Aileron', color: 'white' }}>{"Listen"}</h3>
+                <h2 style={{ fontFamily: 'Aileron', color: 'white' }}>{"Listen"}</h2>
                 <div className="listen" style={{
                   width: '100%',
                   color: '#ffffff',
@@ -174,16 +182,16 @@ class App extends Component {
                   textAlign: 'center',
                 }}>
                   <a className="dezeer" href="https://bit.ly/dizorderdeezer" style={{ display: 'block', color: '#929292', textDecoration: 'none', borderTop: '1px solid #414141', marginTop: '10px' }}>
-                    <img src={Dezeer} alt="dezeer" style={{ width: '10%', height: '10%' }} />
+                    <img src={Dezeer} alt="dezeer" style={{ width: '12%', height: '12%' }} />
                   </a>
                   <a className="spotify" href="https://open.spotify.com/artist/7k9jy6yMBgIBXSU1JlGEJM?si=yshFZ2A-SfaWWtK-VtMgrA" style={{ display: 'block', color: '#929292', textDecoration: 'none', borderTop: '1px solid #414141', marginTop: '10px' }}>
-                    <img src={Spotify} alt="spotify" style={{ width: '10%', height: '10%' }} />
+                    <img src={Spotify} alt="spotify" style={{ width: '12%', height: '12%' }} />
                   </a>
                   <a className="bandcamp" href="https://bit.ly/3fS0wia" style={{ display: 'block', color: '#929292', textDecoration: 'none', borderTop: '1px solid #414141', marginTop: '10px' }}>
-                    <img src={Bandcamp} alt="bandcamp" style={{ width: '10%', height: '10%' }} />
+                    <img src={Bandcamp} alt="bandcamp" style={{ width: '12%', height: '12%' }} />
                   </a>
                   <a className="youtube" href="https://www.youtube.com/channel/UC5BII7bb_UOYrMrhSgYnxBQ" style={{ display: 'block', color: '#929292', textDecoration: 'none', borderTop: '1px solid #414141', marginTop: '10px' }}>
-                    <img src={Youtube} alt="youtube" style={{ width: '10%', height: '10%' }} />
+                    <img src={Youtube} alt="youtube" style={{ width: '12%', height: '12%' }} />
                   </a>
                 </div>
               </div>
@@ -191,6 +199,7 @@ class App extends Component {
           </div>
 
           <div className='youtube' style={{ marginTop: '40px', marginLeft: '10%', width: '80%' }}>
+            <h3 style={{ color: 'white', fontFamily: 'Aileron' }} >VIDEO</h3>
             <Carousel
               interval={null}
             >
@@ -219,6 +228,7 @@ class App extends Component {
           </div>
 
           <div className={"carroussel"} style={{ marginLeft: '30%', width: '40%', marginTop: '40px' }}>
+            <h3 style={{ color: 'white', fontFamily: 'Aileron' }} >REALESES</h3>
             <Carousel>
               <Carousel.Item>
                 <a href="https://dizorder.fanlink.to/LiliMoon"><img src={Lilimoon} alt='Lili_moon' style={{ width: '100%', height: '100%' }} /></a>
@@ -250,7 +260,7 @@ class App extends Component {
               <div style={{ borderTop: '1px solid #cbcbcb' }}>
                 <div style={{ color: 'white' }}>
                   <br />
-                  <h3 style={{ color: 'white', fontFamily: 'Aileron' }} >TOUR</h3>
+                  <h3 style={{ color: 'white', fontFamily: 'Aileron' }} >GIGS</h3>
                 </div>
                 <div className="listen" style={{
                   width: '100%',
@@ -300,10 +310,12 @@ class App extends Component {
                   <div><h5>Management : dizordermusic@gmail.com</h5></div>
                 </div>
               </div>
-              <div style={{ display: 'inline-block', width: "50%", textAlign: 'center' }}>
-                <h5>Subscribe to news letter</h5>
-                <input style={{ width: '190px' }} type="text" id="new_letter_input"></input><br></br>
-                <button style={{ width: '190px', marginTop: "10px" }} onClick={this.handleClickSubmitNewLetter}>Submit</button>
+              <div style={{ display: 'inline-block', width: "50%", textAlign: 'right' }}>
+                <div style={{ marginRight: "20%", marginTop: "10px" }}>
+                  <div><h5>Subscribe to newsletter</h5></div>
+                  <div><input style={{ width: '220px' }} type="text" id="new_letter_input"></input></div>
+                  <div><button style={{ width: '220px', marginTop: "10px" }} onClick={this.handleClickSubmitNewLetter}>Submit</button></div>
+                </div>
               </div>
             </div>
           </div>
