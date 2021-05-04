@@ -16,6 +16,7 @@ import Skylight from './assets/Releases/skylight.png';
 import GroupeDizorder from './assets/groupe.png';
 import firebase from 'firebase';
 import Concert from './models/Concert';
+import { isMobile } from 'react-device-detect';
 
 interface StateInterface {
   concerts: Concert[] | undefined
@@ -43,7 +44,6 @@ class App extends Component {
 
   componentDidMount() {
     firebase.auth().signInAnonymously().then((user) => {
-      console.log(user);
       firebase.firestore().collection('concert').get().then((queryDocs) => {
         const concerts = queryDocs.docs.map((d) => new Concert(d));
         console.log(concerts);
@@ -80,33 +80,33 @@ class App extends Component {
       <div className="App" style={{ backgroundColor: 'grey', width: '100%', height: '100%' }}>
         <div style={{ width: '100%', height: '100%', backgroundColor: '#1E1E1E' }}>
 
-          <div className="top_bar" style={{ width: '100%', backgroundColor: 'black', height: '70px', display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
+          <div className="top_bar" style={{ width: '100%', backgroundColor: 'black', height: (isMobile) ? '100px' : '70px', display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
             <a className="insta"
               href="https://bit.ly/dizorderinstagram"
-              style={{ width: '20px', height: '20px', lineHeight: '70px' }}
+              style={{ width: (isMobile) ? '40px' : '20px', height: (isMobile) ? '40px' : '20px', lineHeight: (isMobile) ? '100px' : '70px' }}
               onClick={() => {
                 console.log('instagram')
               }}
             >
-              <img src={Instagram} alt='instagram' style={{ width: '20px', height: '20px' }} />
+              <img src={Instagram} alt='instagram' style={{ width: (isMobile) ? '40px' : '20px', height: (isMobile) ? '40px' : '20px' }} />
             </a>
             <a className='facebook'
-              style={{ marginLeft: '15px', width: '20px', height: '20px', lineHeight: '70px' }}
+              style={{ marginLeft: '15px', width: (isMobile) ? '40px' : '20px', height: (isMobile) ? '40px' : '20px', lineHeight: (isMobile) ? '100px' : '70px' }}
               href="https://bit.ly/dizorderfacebook"
               onClick={() => {
                 console.log('facebook')
               }}
             >
-              <img src={Facebook} alt={'facebook'} style={{ width: '20px', height: '20px' }} />
+              <img src={Facebook} alt={'facebook'} style={{ width: (isMobile) ? '40px' : '20px', height: (isMobile) ? '40px' : '20px' }} />
             </a>
             <a className='twitter'
-              style={{ marginLeft: '15px', width: '20px', height: '20px', lineHeight: '70px' }}
+              style={{ marginLeft: '15px', width: (isMobile) ? '40px' : '20px', height: (isMobile) ? '40px' : '20px', lineHeight: (isMobile) ? '100px' : '70px' }}
               href="https://bit.ly/dizordertwitter"
               onClick={() => {
                 console.log('twitter')
               }}
             >
-              <img src={Twitter} alt={'twitter'} style={{ width: '20px', height: '20px' }} />
+              <img src={Twitter} alt={'twitter'} style={{ width: (isMobile) ? '40px' : '20px', height: (isMobile) ? '40px' : '20px' }} />
             </a>
             {/* <div className="lang_selector" style={{ height: '100%', marginLeft: '30%', display: 'flex', overflow: 'hidden' }}>
               <img src={FlagEn} alt="Anglais" style={{ width: '60px', height: '60px', marginTop: '0px' }} onClick={() => {
@@ -132,8 +132,8 @@ class App extends Component {
             {/* border: '1rem solid white', borderRadius: '30px' */}
             <div style={{}}>
               <div style={{ marginLeft: '30px', marginRight: '30px' }}>
-                <h3 style={{ color: 'white', marginTop: '30px', fontFamily: 'Aileron' }}>THE BAND</h3>
-                <p className='P_pitch_your_self' style={{ color: 'white', fontFamily: 'Nexa_light', textAlign: "justify", textJustify: "inter-character" }}>
+                <h3 style={{ color: 'white', marginTop: '30px', fontFamily: 'Aileron', fontSize: (isMobile) ? "3rem" : "2rem" }}>THE BAND</h3>
+                <p className='P_pitch_your_self' style={{ color: 'white', fontFamily: 'Nexa_light', textAlign: "justify", textJustify: "inter-character", fontSize: (isMobile) ? "2rem" : "1rem" }}>
                   {this.state.text['introduction']}
                 </p>
                 <br />
@@ -147,7 +147,7 @@ class App extends Component {
           <br />
 
           <div className='shop' style={{ marginLeft: '15%', width: '70%' }}>
-            <h3 style={{ color: 'white', fontFamily: 'Aileron' }} > Shop </h3>
+            <h3 style={{ color: 'white', fontFamily: 'Aileron', fontSize: (isMobile) ? "3rem" : "2rem" }} > Shop </h3>
             <div style={{ marginTop: '10px', display: 'flex', width: '80%', marginLeft: '10%', color: 'white' }}>
               <div style={{ width: '100%', height: '100%' }}>
                 <Carousel>
@@ -171,7 +171,7 @@ class App extends Component {
                   {/* <h5 style={{ color: 'white' }} >Disponible Maintenat</h5> */}
                 </div>
                 <br />
-                <h2 style={{ fontFamily: 'Aileron', color: 'white' }}>{"Listen"}</h2>
+                <h3 style={{ fontFamily: 'Aileron', color: 'white', fontSize: (isMobile) ? "3rem" : "2rem" }}>{"Listen"}</h3>
                 <div className="listen" style={{
                   width: '100%',
                   color: '#ffffff',
@@ -182,27 +182,25 @@ class App extends Component {
                   textAlign: 'center',
                 }}>
                   <a className="dezeer" href="https://bit.ly/dizorderdeezer" style={{ display: 'block', color: '#929292', textDecoration: 'none', borderTop: '1px solid #414141', marginTop: '10px' }}>
-                    <img src={Dezeer} alt="dezeer" style={{ width: '12%', height: '12%' }} />
+                    <img src={Dezeer} alt="dezeer" style={{ width: (!isMobile) ? '12%' : '30%', height: (!isMobile) ? '12%' : '30%' }} />
                   </a>
                   <a className="spotify" href="https://open.spotify.com/artist/7k9jy6yMBgIBXSU1JlGEJM?si=yshFZ2A-SfaWWtK-VtMgrA" style={{ display: 'block', color: '#929292', textDecoration: 'none', borderTop: '1px solid #414141', marginTop: '10px' }}>
-                    <img src={Spotify} alt="spotify" style={{ width: '12%', height: '12%' }} />
+                    <img src={Spotify} alt="spotify" style={{ width: (!isMobile) ? '12%' : '30%', height: (!isMobile) ? '12%' : '30%' }} />
                   </a>
                   <a className="bandcamp" href="https://bit.ly/3fS0wia" style={{ display: 'block', color: '#929292', textDecoration: 'none', borderTop: '1px solid #414141', marginTop: '10px' }}>
-                    <img src={Bandcamp} alt="bandcamp" style={{ width: '12%', height: '12%' }} />
+                    <img src={Bandcamp} alt="bandcamp" style={{ width: (!isMobile) ? '12%' : '30%', height: (!isMobile) ? '12%' : '30%' }} />
                   </a>
                   <a className="youtube" href="https://www.youtube.com/channel/UC5BII7bb_UOYrMrhSgYnxBQ" style={{ display: 'block', color: '#929292', textDecoration: 'none', borderTop: '1px solid #414141', marginTop: '10px' }}>
-                    <img src={Youtube} alt="youtube" style={{ width: '12%', height: '12%' }} />
+                    <img src={Youtube} alt="youtube" style={{ width: (!isMobile) ? '12%' : '30%', height: (!isMobile) ? '12%' : '30%' }} />
                   </a>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className='youtube' style={{ marginTop: '40px', marginLeft: '10%', width: '80%' }}>
-            <h3 style={{ color: 'white', fontFamily: 'Aileron' }} >VIDEO</h3>
-            <Carousel
-              interval={null}
-            >
+          <div className='youtube' style={{ marginTop: '40px', marginLeft: '15%', width: '70%' }}>
+            <h3 style={{ color: 'white', fontFamily: 'Aileron', fontSize: (isMobile) ? "3rem" : "2rem" }} >VIDEO</h3>
+            <Carousel>
               <Carousel.Item>
                 <iframe width="100%" height="600px" src="https://www.youtube.com/embed/uzQXfiWwrTY" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; allowfullscreen" title='lilimoon'></iframe>
                 <Carousel.Caption>
@@ -228,7 +226,7 @@ class App extends Component {
           </div>
 
           <div className={"carroussel"} style={{ marginLeft: '30%', width: '40%', marginTop: '40px' }}>
-            <h3 style={{ color: 'white', fontFamily: 'Aileron' }} >REALESES</h3>
+            <h3 style={{ color: 'white', fontFamily: 'Aileron', fontSize: (isMobile) ? "3rem" : "2rem" }} >RELEASES</h3>
             <Carousel>
               <Carousel.Item>
                 <a href="https://dizorder.fanlink.to/LiliMoon"><img src={Lilimoon} alt='Lili_moon' style={{ width: '100%', height: '100%' }} /></a>
@@ -260,7 +258,7 @@ class App extends Component {
               <div style={{ borderTop: '1px solid #cbcbcb' }}>
                 <div style={{ color: 'white' }}>
                   <br />
-                  <h3 style={{ color: 'white', fontFamily: 'Aileron' }} >GIGS</h3>
+                  <h3 style={{ color: 'white', fontFamily: 'Aileron', fontSize: (isMobile) ? "3rem" : "2rem" }} >GIGS</h3>
                 </div>
                 <div className="listen" style={{
                   width: '100%',
@@ -302,7 +300,7 @@ class App extends Component {
             color: '#CCCCCC',
             textAlign: "center",
           }}>
-            <div style={{ display: 'flex', width: '100%', height: '100%', fontFamily: 'Nexa_light', fontWeight: 'bold' }}>
+            <div style={{ display: 'flex', width: '100%', height: '100%', fontFamily: 'Nexa_light', fontWeight: 'bold', fontSize: (isMobile) ? "3rem" : "2rem" }}>
               <div style={{ display: 'inline-block', width: "50%", textAlign: 'left' }}>
                 <div style={{ marginLeft: '20%', marginTop: '10px' }}>
                   <div><h5>Booking :  dizordermusic@gmail.com</h5></div>
@@ -310,7 +308,7 @@ class App extends Component {
                   <div><h5>Management : dizordermusic@gmail.com</h5></div>
                 </div>
               </div>
-              <div style={{ display: 'inline-block', width: "50%", textAlign: 'right' }}>
+              <div style={{ display: 'inline-block', width: "50%", textAlign: 'right', fontSize: '1rem' }}>
                 <div style={{ marginRight: "20%", marginTop: "10px" }}>
                   <div><h5>Subscribe to newsletter</h5></div>
                   <div><input style={{ width: '220px' }} type="text" id="new_letter_input"></input></div>
