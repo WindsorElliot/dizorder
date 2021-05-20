@@ -10,9 +10,6 @@ import Dezeer from './assets/deezer.png';
 import Spotify from './assets/Spotify.png';
 import Bandcamp from './assets/Bandcamp.png';
 import Youtube from './assets/Youtube.png';
-import Lilimoon from './assets/Releases/lilimoon.png';
-import Soulless from './assets/Releases/soulless.png';
-import Skylight from './assets/Releases/skylight.png';
 import GroupeDizorder from './assets/groupe.png';
 import firebase from 'firebase';
 import Concert from './models/Concert';
@@ -22,7 +19,8 @@ interface StateInterface {
   concerts: Concert[] | undefined
   selectedLang: string,
   text: any,
-  shopsItem: string[]
+  shopsItem: string[],
+  releasesItem: string[]
 }
 
 class App extends Component {
@@ -37,6 +35,7 @@ class App extends Component {
 
       },
       shopsItem: [],
+      releasesItem: [],
       selectedLang: 'en'
     };
     this.handleClickALang = this.handleClickALang.bind(this);
@@ -70,6 +69,15 @@ class App extends Component {
           });
         });
       });
+
+      firebase.storage().ref().child('releases').listAll().then((list) => {
+        const urlsPromise = list.items.map((aItem) => aItem.getDownloadURL());
+        Promise.all(urlsPromise).then((res) => {
+          this.setState({
+            'releasesItem': res
+          });
+        });
+      })
     }).catch((err) => {
       console.log(err);
     })
@@ -132,7 +140,7 @@ class App extends Component {
             {/* border: '1rem solid white', borderRadius: '30px' */}
             <div style={{}}>
               <div style={{ marginLeft: '30px', marginRight: '30px' }}>
-                <h3 style={{ color: 'white', marginTop: '30px', fontFamily: 'Aileron', fontSize: (isMobile) ? "3rem" : "2rem" }}>THE BAND</h3>
+                <h3 style={{ color: 'white', marginTop: '30px', fontFamily: 'Aileron', fontSize: (isMobile) ? "6rem" : "2rem" }}>THE BAND</h3>
                 <p className='P_pitch_your_self' style={{ color: 'white', fontFamily: 'Nexa_light', textAlign: "justify", textJustify: "inter-character", fontSize: (isMobile) ? "2rem" : "1rem" }}>
                   {this.state.text['introduction']}
                 </p>
@@ -147,13 +155,13 @@ class App extends Component {
           <br />
 
           <div className='shop' style={{ marginLeft: '15%', width: '70%' }}>
-            <h3 style={{ color: 'white', fontFamily: 'Aileron', fontSize: (isMobile) ? "3rem" : "2rem" }} > Shop </h3>
+            <h3 style={{ color: 'white', fontFamily: 'Aileron', fontSize: (isMobile) ? "6rem" : "2rem" }} > Shop </h3>
             <div style={{ marginTop: '10px', display: 'flex', width: '80%', marginLeft: '10%', color: 'white' }}>
               <div style={{ width: '100%', height: '100%' }}>
                 <Carousel>
                   {this.state.shopsItem.map((aUrl, index) => (
                     <Carousel.Item key={index}>
-                      <a href="https://dizorder.bigcartel.com/"><img src={aUrl} alt='last release' style={{ width: '100%', height: '100%', display: 'block' }} /></a>
+                      <a href="https://dizorder.bigcartel.com/"><img src={aUrl} alt='last release' style={{ width: '100%', height: '80%', display: 'block' }} /></a>
                       <Carousel.Caption>
 
                       </Carousel.Caption>
@@ -171,7 +179,7 @@ class App extends Component {
                   {/* <h5 style={{ color: 'white' }} >Disponible Maintenat</h5> */}
                 </div>
                 <br />
-                <h3 style={{ fontFamily: 'Aileron', color: 'white', fontSize: (isMobile) ? "3rem" : "2rem" }}>{"Listen"}</h3>
+                <h3 style={{ fontFamily: 'Aileron', color: 'white', fontSize: (isMobile) ? "6rem" : "2rem" }}>{"Listen"}</h3>
                 <div className="listen" style={{
                   width: '100%',
                   color: '#ffffff',
@@ -182,16 +190,16 @@ class App extends Component {
                   textAlign: 'center',
                 }}>
                   <a className="dezeer" href="https://bit.ly/dizorderdeezer" style={{ display: 'block', color: '#929292', textDecoration: 'none', borderTop: '1px solid #414141', marginTop: '10px' }}>
-                    <img src={Dezeer} alt="dezeer" style={{ width: (!isMobile) ? '12%' : '30%', height: (!isMobile) ? '12%' : '30%' }} />
+                    <img src={Dezeer} alt="dezeer" style={{ width: (!isMobile) ? '12%' : '70%', height: (!isMobile) ? '12%' : '70%' }} />
                   </a>
                   <a className="spotify" href="https://open.spotify.com/artist/7k9jy6yMBgIBXSU1JlGEJM?si=yshFZ2A-SfaWWtK-VtMgrA" style={{ display: 'block', color: '#929292', textDecoration: 'none', borderTop: '1px solid #414141', marginTop: '10px' }}>
-                    <img src={Spotify} alt="spotify" style={{ width: (!isMobile) ? '12%' : '30%', height: (!isMobile) ? '12%' : '30%' }} />
+                    <img src={Spotify} alt="spotify" style={{ width: (!isMobile) ? '12%' : '70%', height: (!isMobile) ? '12%' : '70%' }} />
                   </a>
                   <a className="bandcamp" href="https://bit.ly/3fS0wia" style={{ display: 'block', color: '#929292', textDecoration: 'none', borderTop: '1px solid #414141', marginTop: '10px' }}>
-                    <img src={Bandcamp} alt="bandcamp" style={{ width: (!isMobile) ? '12%' : '30%', height: (!isMobile) ? '12%' : '30%' }} />
+                    <img src={Bandcamp} alt="bandcamp" style={{ width: (!isMobile) ? '12%' : '70%', height: (!isMobile) ? '12%' : '70%' }} />
                   </a>
                   <a className="youtube" href="https://www.youtube.com/channel/UC5BII7bb_UOYrMrhSgYnxBQ" style={{ display: 'block', color: '#929292', textDecoration: 'none', borderTop: '1px solid #414141', marginTop: '10px' }}>
-                    <img src={Youtube} alt="youtube" style={{ width: (!isMobile) ? '12%' : '30%', height: (!isMobile) ? '12%' : '30%' }} />
+                    <img src={Youtube} alt="youtube" style={{ width: (!isMobile) ? '12%' : '70%', height: (!isMobile) ? '12%' : '70%' }} />
                   </a>
                 </div>
               </div>
@@ -199,8 +207,15 @@ class App extends Component {
           </div>
 
           <div className='youtube' style={{ marginTop: '40px', marginLeft: '15%', width: '70%' }}>
-            <h3 style={{ color: 'white', fontFamily: 'Aileron', fontSize: (isMobile) ? "3rem" : "2rem" }} >VIDEO</h3>
+            <h3 style={{ color: 'white', fontFamily: 'Aileron', fontSize: (isMobile) ? "6rem" : "2rem" }} >VIDEO</h3>
             <Carousel>
+              <Carousel.Item>
+                <iframe width="100%" height="600px" src="https://www.youtube.com/embed/2CFNv6vw7Es" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; allowfullscreen" title='lilimoon'></iframe>
+                <Carousel.Caption>
+                  {/* <h3>Lili / Moon</h3> */}
+                  {/* <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
+                </Carousel.Caption>
+              </Carousel.Item>
               <Carousel.Item>
                 <iframe width="100%" height="600px" src="https://www.youtube.com/embed/uzQXfiWwrTY" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; allowfullscreen" title='lilimoon'></iframe>
                 <Carousel.Caption>
@@ -226,29 +241,18 @@ class App extends Component {
           </div>
 
           <div className={"carroussel"} style={{ marginLeft: '30%', width: '40%', marginTop: '40px' }}>
-            <h3 style={{ color: 'white', fontFamily: 'Aileron', fontSize: (isMobile) ? "3rem" : "2rem" }} >RELEASES</h3>
+            <h3 style={{ color: 'white', fontFamily: 'Aileron', fontSize: (isMobile) ? "6rem" : "2rem" }} >RELEASES</h3>
             <Carousel>
-              <Carousel.Item>
-                <a href="https://dizorder.fanlink.to/LiliMoon"><img src={Lilimoon} alt='Lili_moon' style={{ width: '100%', height: '100%' }} /></a>
-                <Carousel.Caption>
-                  {/* <h3>Lili / Moon</h3> */}
-                  {/* <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
-                </Carousel.Caption>
-              </Carousel.Item>
-              <Carousel.Item>
-                <a href="https://dizorder.fanlink.to/SoulLess"><img src={Soulless} alt='Soolless' style={{ width: '100%', height: '100%' }} /></a>
-                <Carousel.Caption>
-                  {/* <h3>Soul / Less </h3> */}
-                  {/* <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
-                </Carousel.Caption>
-              </Carousel.Item>
-              <Carousel.Item>
-                <a href="https://dizorder.fanlink.to/skylight"><img src={Skylight} alt='Skylight' style={{ width: '100%', height: '100%' }} /></a>
-                <Carousel.Caption>
-                  {/* <h3>Skylight</h3> */}
-                  {/* <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
-                </Carousel.Caption>
-              </Carousel.Item>
+              {
+                this.state.releasesItem.map((aUrl, index) => {
+                  const links = ['https://dizorder.fanlink.to/LiliMoon', 'https://dizorder.fanlink.to/MoonPhases', 'https://dizorder.fanlink.to/skylight', 'https://dizorder.fanlink.to/SoulLess'];
+                  return (
+                    <Carousel.Item>
+                      <a href={links[index]}><img src={aUrl} alt={aUrl} style={{ width: '100%', height: '100%' }}></img></a>
+                    </Carousel.Item>
+                  );
+                })
+              }
             </Carousel>
           </div>
 
@@ -258,7 +262,7 @@ class App extends Component {
               <div style={{ borderTop: '1px solid #cbcbcb' }}>
                 <div style={{ color: 'white' }}>
                   <br />
-                  <h3 style={{ color: 'white', fontFamily: 'Aileron', fontSize: (isMobile) ? "3rem" : "2rem" }} >GIGS</h3>
+                  <h3 style={{ color: 'white', fontFamily: 'Aileron', fontSize: (isMobile) ? "6rem" : "2rem" }} >GIGS</h3>
                 </div>
                 <div className="listen" style={{
                   width: '100%',
@@ -300,7 +304,7 @@ class App extends Component {
             color: '#CCCCCC',
             textAlign: "center",
           }}>
-            <div style={{ display: 'flex', width: '100%', height: '100%', fontFamily: 'Nexa_light', fontWeight: 'bold', fontSize: (isMobile) ? "3rem" : "2rem" }}>
+            <div style={{ display: 'flex', width: '100%', height: '100%', fontFamily: 'Nexa_light', fontWeight: 'bold', fontSize: (isMobile) ? "6rem" : "2rem" }}>
               <div style={{ display: 'inline-block', width: "50%", textAlign: 'left' }}>
                 <div style={{ marginLeft: '20%', marginTop: '10px' }}>
                   <div><h5>Booking :  dizordermusic@gmail.com</h5></div>
