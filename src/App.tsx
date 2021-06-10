@@ -250,7 +250,7 @@ class App extends Component {
             <Carousel>
               {
                 this.state.releasesItem.sort((a, b) => (a < b) ? -1 : 1).map((aUrl, index) => {
-                  const links = ['https://dizorder.fanlink.to/LiliMoon', 'https://dizorder.fanlink.to/MoonPhases', 'https://dizorder.fanlink.to/skylight', 'https://dizorder.fanlink.to/SoulLess'];
+                  const links = ['https://dizorder.fanlink.to/MoonPhases', 'https://dizorder.fanlink.to/LiliMoon', 'https://dizorder.fanlink.to/SoulLess', 'https://dizorder.fanlink.to/skylight',];
                   return (
                     <Carousel.Item>
                       <a href={links[index]}><img src={aUrl} alt={aUrl} style={{ width: '100%', height: '100%' }}></img></a>
