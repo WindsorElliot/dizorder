@@ -137,7 +137,7 @@ class App extends Component {
 
           <div className='youtube' style={{ marginTop: '40px', marginLeft: '15%', width: '70%' }}>
             <h3 style={{ color: 'white', fontFamily: 'Aileron', fontSize: (isMobile) ? "4rem" : "3rem" }} >WATCH OUR NEW MUSIC VIDEO NOW !</h3>
-            <iframe width="100%" height="600px" src="https://www.youtube.com/embed/2CFNv6vw7Es" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; allowfullscreen" title='lilimoon'></iframe>
+            <iframe width="100%" height="600px" src="https://youtu.be/_g5xTo32Dd0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; allowfullscreen"></iframe>
           </div>
           <br />
 
