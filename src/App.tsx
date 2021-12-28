@@ -137,7 +137,7 @@ class App extends Component {
 
           <div className='youtube' style={{ marginTop: '40px', marginLeft: '15%', width: '70%' }}>
             <h3 style={{ color: 'white', fontFamily: 'Aileron', fontSize: (isMobile) ? "4rem" : "3rem" }} >WATCH OUR NEW MUSIC VIDEO NOW !</h3>
-            <iframe width="100%" height="600px" src="https://youtu.be/_g5xTo32Dd0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; allowfullscreen"></iframe>
+            <iframe width="100%" height="600px" src="https://www.youtube.com/embed/PogZ2cqKIvw" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; allowfullscreen" title="sky//light"></iframe>
           </div>
           <br />
 
@@ -145,10 +145,6 @@ class App extends Component {
             {/* border: '1rem solid white', borderRadius: '30px' */}
             <div style={{}}>
               <div style={{ marginLeft: '30px', marginRight: '30px' }}>
-                <h3 style={{ color: 'white', marginTop: '30px', fontFamily: 'Aileron', fontSize: (isMobile) ? "6rem" : "4rem" }}>THE BAND</h3>
-                <p className='P_pitch_your_self' style={{ color: 'white', fontFamily: 'Nexa_light', textAlign: "justify", textJustify: "inter-character", fontSize: (isMobile) ? "2rem" : "1rem" }}>
-                  {this.state.text['introduction']}
-                </p>
                 <br />
                 <img src={GroupeDizorder} alt="groupe" style={{ width: '100%', height: '70%', marginBottom: '30px' }} />
                 <br />
@@ -156,6 +152,50 @@ class App extends Component {
             </div>
           </div>
 
+          <br />
+          <br />
+
+          <div className="concert" style={{ marginTop: '40px', marginLeft: '15%', width: '70%', }}>
+            <div style={{ color: 'white', marginTop: '30px', marginBottom: '30px', marginLeft: '10%', width: '80%', }}>
+              <div style={{ borderTop: '1px solid #cbcbcb' }}>
+                <div style={{ color: 'white' }}>
+                  <br />
+                  <h3 style={{ color: 'white', fontFamily: 'Aileron', fontSize: (isMobile) ? "6rem" : "4rem" }} >GIGS</h3>
+                </div>
+                <div className="listen" style={{
+                  width: '100%',
+                  color: '#ffffff',
+                  fontSize: '16px',
+                  lineHeight: '59px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '4px',
+                  textAlign: 'center',
+                  // color: '#CCCCCC'
+                }}>
+
+
+                  {/*
+                  */}
+                  {
+                    (this.state.concerts !== undefined && this.state.concerts.length !== 0)
+                      ? this.state.concerts.sort((a: Concert, b: Concert) => {
+                        return (a.date.getTime() >= b.date.getTime()) ? 1 : -1
+                      }).map((aConcert) => {
+                        return (
+                          <a className="dezeer" href={`${aConcert.link}`} style={{ display: 'block', color: 'white', textDecoration: 'none', borderTop: '1px solid #414141', marginTop: '10px', fontFamily: 'Nexa_bold', fontSize: '30px' }}>
+                            {`Le ${aConcert.formatedDate} à ${aConcert.sale} de ${aConcert.lieu}`}
+                          </a>
+                        );
+                      })
+                      : <div style={{ textAlign: 'center', }}> No date</div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <br />
+          <br />
           <br />
           <br />
 
@@ -242,6 +282,13 @@ class App extends Component {
                   {/* <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
                 </Carousel.Caption>
               </Carousel.Item>
+              <Carousel.Item>
+                <iframe width="100%" height="600px" src="https://youtube.com/embed/_g5xTo32Dd0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; allowfullscreen" title="sky//light"></iframe>
+                <Carousel.Caption>
+                  {/* <h3>The real face</h3> */}
+                  {/* <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
+                </Carousel.Caption>
+              </Carousel.Item>
             </Carousel>
           </div>
 
@@ -250,7 +297,7 @@ class App extends Component {
             <Carousel>
               {
                 this.state.releasesItem.sort((a, b) => (a < b) ? -1 : 1).map((aUrl, index) => {
-                  const links = ['https://dizorder.fanlink.to/MoonPhases', 'https://dizorder.fanlink.to/LiliMoon', 'https://dizorder.fanlink.to/SoulLess', 'https://dizorder.fanlink.to/skylight',];
+                  const links = ['https://dizorder.fanlink.to/MoonPhases', 'https://dizorder.fanlink.to/LiliMoon', 'https://dizorder.fanlink.to/SoulLess', 'https://dizorder.fanlink.to/skylight', 'https://dizorder.fanlink.to/nightowl?embed=true',];
                   return (
                     <Carousel.Item>
                       <a href={links[index]}><img src={aUrl} alt={aUrl} style={{ width: '100%', height: '100%' }}></img></a>
@@ -261,43 +308,11 @@ class App extends Component {
             </Carousel>
           </div>
 
+          <br />
+          <br />
+          <br />
+
           {/* border: '1rem solid white', borderRadius: '30px' */}
-          <div className="concert" style={{ marginTop: '40px', marginLeft: '15%', width: '70%', }}>
-            <div style={{ color: 'white', marginTop: '30px', marginBottom: '30px', marginLeft: '10%', width: '80%', }}>
-              <div style={{ borderTop: '1px solid #cbcbcb' }}>
-                <div style={{ color: 'white' }}>
-                  <br />
-                  <h3 style={{ color: 'white', fontFamily: 'Aileron', fontSize: (isMobile) ? "6rem" : "4rem" }} >GIGS</h3>
-                </div>
-                <div className="listen" style={{
-                  width: '100%',
-                  color: '#ffffff',
-                  fontSize: '16px',
-                  lineHeight: '59px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '4px',
-                  textAlign: 'center',
-                  // color: '#CCCCCC'
-                }}>
-
-
-                  {/*
-                  */}
-                  {
-                    (this.state.concerts !== undefined && this.state.concerts.length !== 0)
-                      ? this.state.concerts.map((aConcert) => {
-                        return (
-                          <a className="dezeer" href={`${aConcert.link}`} style={{ display: 'block', color: 'white', textDecoration: 'none', borderTop: '1px solid #414141', marginTop: '10px', fontFamily: 'Nexa_bold' }}>
-                            {`Le ${aConcert.formatedDate} à ${aConcert.sale} de ${aConcert.lieu}`}
-                          </a>
-                        );
-                      })
-                      : <div style={{ textAlign: 'center', }}> No date</div>
-                  }
-                </div>
-              </div>
-            </div>
-          </div>
 
           <div className="footer" style={{
             // position: "fixed",

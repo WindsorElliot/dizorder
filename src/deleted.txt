@@ -1,0 +1,14 @@
+<div className='pitch_yourself' style={{ textAlign: 'left', marginLeft: '15%', width: '70%', }}>
+            {/* border: '1rem solid white', borderRadius: '30px' */}
+            <div style={{}}>
+              <div style={{ marginLeft: '30px', marginRight: '30px' }}>
+                <h3 style={{ color: 'white', marginTop: '30px', fontFamily: 'Aileron', fontSize: (isMobile) ? "6rem" : "4rem" }}>THE BAND</h3>
+                <p className='P_pitch_your_self' style={{ color: 'white', fontFamily: 'Nexa_light', textAlign: "justify", textJustify: "inter-character", fontSize: (isMobile) ? "2rem" : "1rem" }}>
+                  {this.state.text['introduction']}
+                </p>
+                <br />
+                <img src={GroupeDizorder} alt="groupe" style={{ width: '100%', height: '70%', marginBottom: '30px' }} />
+                <br />
+              </div>
+            </div>
+          </div>
