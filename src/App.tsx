@@ -7,9 +7,9 @@ import Facebook from './assets/facebook.png';
 import Twitter from './assets/twitter.png';
 import { Carousel } from 'react-bootstrap';
 import Dezeer from './assets/deezer.png';
-import Spotify from './assets/Spotify.png';
-import Bandcamp from './assets/Bandcamp.png';
-import Youtube from './assets/Youtube.png';
+import Spotify from './assets/spotify.png';
+import Bandcamp from './assets/bandcamp.png';
+import Youtube from './assets/youtube.png';
 import GroupeDizorder from './assets/groupe.png';
 import firebase from 'firebase';
 import Concert from './models/Concert';
@@ -206,7 +206,7 @@ class App extends Component {
                 <Carousel>
                   {this.state.shopsItem.map((aUrl, index) => (
                     <Carousel.Item key={index}>
-                      <a href="https://dizorder.bigcartel.com/"><img src={aUrl} alt='last release' style={{ width: '100%', height: '100%', display: 'block' }} /></a>
+                      <a href="https://dizorder.bandcamp.com/"><img src={aUrl} alt='last release' style={{ width: '100%', height: '100%', display: 'block' }} /></a>
                       <Carousel.Caption>
 
                       </Carousel.Caption>
