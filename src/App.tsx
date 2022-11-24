@@ -328,8 +328,9 @@ class App extends Component {
               <div style={{ display: 'inline-block', width: "50%", textAlign: 'left' }}>
                 <div style={{ marginLeft: '20%', marginTop: '10px' }}>
                   <div><h5>Booking :  dizordermusic@gmail.com</h5></div>
-                  <div><h5>Press : dominomedia@gmail.com</h5></div>
-                  <div><h5>Management : dizordermusic@gmail.com</h5></div>
+                  {/* <br/> */}
+                  {/* <div><h5>Press : dominomedia@gmail.com</h5></div> */}
+                  <div style={{ "marginTop": "50px" }}><h5>Management : dizordermusic@gmail.com</h5></div>
                 </div>
               </div>
               <div style={{ display: 'inline-block', width: "50%", textAlign: 'right', fontSize: '1rem' }}>
